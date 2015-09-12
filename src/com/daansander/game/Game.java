@@ -1,35 +1,42 @@
 package com.daansander.game;
 
-
+import com.daansander.game.graphics.Screen;
 import com.daansander.game.input.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  * Created by Daan on 12-9-2015.
  */
 public class Game extends Canvas implements Runnable {
 
-    public static final int WIDTH = 500;
+    public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 2;
     public static final String NAME = "2DGame";
 
     private JFrame frame;
+    private Screen screen;
     private InputHandler inputHandler;
+
     private volatile boolean running;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
             BufferedImage.TYPE_INT_RGB);
+    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public Game() {
         setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
+        //TODO: Move screen to init
+        screen = new Screen(WIDTH, HEIGHT);
+        //
         frame = new JFrame(NAME);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +59,7 @@ public class Game extends Canvas implements Runnable {
 
     public synchronized void start() {
         running = true;
-        new Thread(this).start();
+        new Thread(this, "Game").start();
     }
 
     public synchronized void stop() {
@@ -96,7 +103,7 @@ public class Game extends Canvas implements Runnable {
 
     public void render() {
         BufferStrategy bs = getBufferStrategy();
-        if(bs == null){
+        if (bs == null) {
             createBufferStrategy(3);
             return;
         }
@@ -106,10 +113,17 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
-        g.setColor(Color.white);
-        g.fillRect(WIDTH / 2, HEIGHT / 2, 100, 100);
+//
+//        g.setColor(Color.white);
+//        g.fillRect(WIDTH / 2, HEIGHT / 2, 100, 100);
+
+//        screen.render();
+//
+//        for(int i = 0; i < pixels.length; i++) {
+//            pixels[i] = screen.pixels[i];
+//        }
+//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         g.dispose();
         bs.show();

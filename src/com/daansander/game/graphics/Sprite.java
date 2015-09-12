@@ -1,4 +1,4 @@
-package com.daansander.game.gfx;
+package com.daansander.game.graphics;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
