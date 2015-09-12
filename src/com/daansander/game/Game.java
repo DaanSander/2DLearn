@@ -34,9 +34,6 @@ public class Game extends Canvas implements Runnable {
         setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
-        //TODO: Move screen to init
-        screen = new Screen(WIDTH, HEIGHT);
-        //
         frame = new JFrame(NAME);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,12 +115,12 @@ public class Game extends Canvas implements Runnable {
 //        g.setColor(Color.white);
 //        g.fillRect(WIDTH / 2, HEIGHT / 2, 100, 100);
 
-//        screen.render();
-//
-//        for(int i = 0; i < pixels.length; i++) {
-//            pixels[i] = screen.pixels[i];
-//        }
-//        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        screen.render();
+
+        for (int i = 0; i < pixels.length; i++) {
+            pixels[i] = screen.pixels[i];
+        }
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         g.dispose();
         bs.show();
@@ -138,6 +135,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void init() {
+        screen = new Screen(WIDTH, HEIGHT);
         inputHandler = new InputHandler(this);
     }
 }
