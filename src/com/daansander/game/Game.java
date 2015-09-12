@@ -1,6 +1,8 @@
 package com.daansander.game;
 
 
+import com.daansander.game.input.InputHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,6 +19,7 @@ public class Game extends Canvas implements Runnable {
     public static final String NAME = "2DGame";
 
     private JFrame frame;
+    private InputHandler inputHandler;
     private volatile boolean running;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT,
@@ -38,6 +41,8 @@ public class Game extends Canvas implements Runnable {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        init();
 
     }
 
@@ -61,28 +66,31 @@ public class Game extends Canvas implements Runnable {
         long delta = 0;
 
         int frames = 0;
-//        int ticks = 0;
+        int ticks = 0;
 
         while (running) {
             current = System.currentTimeMillis();
             delta += current - lastTime;
             lastTime = current;
             frames++;
+            ticks++;
 
             if (delta > 1000) {
                 delta -= 1000;
-                System.out.println("FRAMES " + frames);
+                System.out.println("FRAMES " + frames + " TICKS " + ticks);
                 frames = 0;
+                ticks = 0;
 
             }
 
             try {
-                Thread.sleep(2);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
             render();
+            tick();
         }
     }
 
@@ -101,20 +109,21 @@ public class Game extends Canvas implements Runnable {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         g.setColor(Color.white);
-        g.fillRect(WIDTH / 2, HEIGHT / 2, 6, 6);
+        g.fillRect(WIDTH / 2, HEIGHT / 2, 100, 100);
 
         g.dispose();
         bs.show();
 
 
-
     }
 
     public void tick() {
-
+//        if(inputHandler.getKeys()[KeyEvent.VK_A]) {
+//            System.out.println("A has been pressed");
+//        }
     }
 
     public void init() {
-
+        inputHandler = new InputHandler(this);
     }
 }
