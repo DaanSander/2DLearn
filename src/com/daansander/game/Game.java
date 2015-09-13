@@ -78,7 +78,8 @@ public class Game extends Canvas implements Runnable {
             lastTime = current;
             frames++;
             ticks++;
-
+            render();
+            tick();
             if (delta > 1000) {
                 delta -= 1000;
                 System.out.println("FRAMES " + frames + " TICKS " + ticks);
@@ -87,14 +88,13 @@ public class Game extends Canvas implements Runnable {
 
             }
 
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
-            render();
-            tick();
+
         }
     }
 
@@ -107,14 +107,14 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
+//        g.setColor(Color.BLACK);
+//        g.fillRect(0, 0, getWidth(), getHeight());
 
 //
 //        g.setColor(Color.white);
 //        g.fillRect(WIDTH / 2, HEIGHT / 2, 100, 100);
 
+        screen.clear();
         screen.render();
 
         for (int i = 0; i < pixels.length; i++) {
